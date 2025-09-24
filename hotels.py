@@ -1,4 +1,4 @@
-from fastapi import Query, APIRouter
+from fastapi import Query, APIRouter, Body
 from schemas.hotels import Hotel, HotelPATCH
 
 router = APIRouter(prefix="/hotels", tags=["Отели"])
@@ -9,7 +9,7 @@ hotels = [
 ]
 
 
-@router.get("")
+@router.get("", summary="Получение списка отелей")
 def get_hotels(
         id: int | None = Query(None, description="Айдишник"),
         title: str | None = Query(None, description="Название отеля"),
@@ -24,8 +24,24 @@ def get_hotels(
     return hotels_
 
 
-@router.post("")
-def create_hotel(hotel_data: Hotel):
+@router.post("", summary="Добавление отеля",)
+def create_hotel(hotel_data: Hotel = Body(openapi_examples={
+    "1": {
+        "summary": "Sochi",
+        "value": {
+            "title": "Hotel Resort 5 Stars",
+            "name": "sochi_resort",
+        }
+    },
+    "2": {
+        "summary": "Dubai",
+        "value": {
+            "title": "Hotel Resort 5 Stars",
+            "name": "dubai_fountain",
+        }
+    }
+})
+):
     global hotels
     hotels.append({
         "id": hotels[-1]["id"] + 1,
@@ -35,7 +51,7 @@ def create_hotel(hotel_data: Hotel):
     return {"status": "OK"}
 
 
-@router.put("/{hotel_id}")
+@router.put("/{hotel_id}", summary="Обновление данных об отеле")
 def edit_hotel(hotel_id: int, hotel_data: Hotel):
     global hotels
     hotel = [hotel for hotel in hotels if hotel["id"] == hotel_id][0]
@@ -63,7 +79,7 @@ def partially_edit_hotel(
     return {"status": "OK"}
 
 
-@router.delete("/{hotel_id}")
+@router.delete("/{hotel_id}", summary="Удаление отеля")
 def delete_hotel(hotel_id: int):
     global hotels
     hotels = [hotel for hotel in hotels if hotel["id"] != hotel_id]
