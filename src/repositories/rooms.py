@@ -1,6 +1,6 @@
 from src.models.rooms import RoomsOrm
-from src.repositories.base import BaseRepositiry
+from src.repositories.base import BaseRepository
 
 
-class RoomsRepositories(BaseRepositiry):
+class RoomsRepositories(BaseRepository):
     model = RoomsOrm
