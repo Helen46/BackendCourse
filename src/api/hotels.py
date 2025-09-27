@@ -24,6 +24,12 @@ async def get_hotels(
         )
 
 
+@router.get("/{hotel_id}", summary="Получение одного отеля")
+async def get_hotel(hotel_id: int):
+    async with async_session_maker() as session:
+       return await HotelsRepository(session).get_one_or_none(id=hotel_id)
+
+
 @router.post("", summary="Добавление отеля",)
 async def create_hotel(hotel_data: Hotel = Body(openapi_examples={
     "1": {
