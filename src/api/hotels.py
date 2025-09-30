@@ -2,7 +2,7 @@ from fastapi import Query, APIRouter, Body
 
 from src.database import async_session_maker, engine
 from src.repositories.hotels import HotelsRepository
-from src.schemas.hotels import Hotel, HotelPATCH
+from src.schemas.hotels import Hotel, HotelPATCH, HotelAdd
 from src.api.dependencies import PaginationDep
 
 router = APIRouter(prefix="/hotels", tags=["Отели"])
@@ -31,7 +31,7 @@ async def get_hotel(hotel_id: int):
 
 
 @router.post("", summary="Добавление отеля",)
-async def create_hotel(hotel_data: Hotel = Body(openapi_examples={
+async def create_hotel(hotel_data: HotelAdd = Body(openapi_examples={
     "1": {
         "summary": "Sochi",
         "value": {
@@ -59,9 +59,9 @@ async def create_hotel(hotel_data: Hotel = Body(openapi_examples={
 
 
 @router.put("/{hotel_id}", summary="Обновление данных об отеле")
-async def edit_hotel(hotel_id: int, hotel_data: Hotel):
+async def edit_hotel(hotel_id: int, hotel_data: HotelAdd):
     async with async_session_maker() as session:
-        await HotelsRepository(session).update_data(hotel_data, id=hotel_id)
+        await HotelsRepository(session).update_data(hotel_data, is_patch=False, id=hotel_id)
         await session.commit()
     return {"status": "OK"}
 
