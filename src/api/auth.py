@@ -38,15 +38,5 @@ async def login_user(
 async def only_auth(
         request: Request,
 ):
-    cookies = ("В библиотеку я зашла но ничего не поняла что все это значит и как это применить"
-               "@property"
-                "def cookies(self) -> dict[str, str]:"
-                    "if not hasattr(self, '_cookies'):"
-                        "cookies: dict[str, str] = {}"
-                        "cookie_header = self.headers.get('cookie')"
-            
-                        "if cookie_header:"
-                        "    cookies = cookie_parser(cookie_header)"
-                        "self._cookies = cookies"
-                    "return self._cookies")
-    return cookies
+    access_token = request.cookies.get("access_token", None)
+    return access_token
