@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Response
+from fastapi import APIRouter, HTTPException, Response, Request
 
 from src.repositories.users import UsersRepository
 from src.database import async_session_maker
@@ -33,3 +33,20 @@ async def login_user(
         access_token = AuthService().create_access_token({"user_id": user.id})
         response.set_cookie("access_token", access_token)
         return {"access_token": access_token}
+
+
+async def only_auth(
+        request: Request,
+):
+    cookies = ("В библиотеку я зашла но ничего не поняла что все это значит и как это применить"
+               "@property"
+                "def cookies(self) -> dict[str, str]:"
+                    "if not hasattr(self, '_cookies'):"
+                        "cookies: dict[str, str] = {}"
+                        "cookie_header = self.headers.get('cookie')"
+            
+                        "if cookie_header:"
+                        "    cookies = cookie_parser(cookie_header)"
+                        "self._cookies = cookies"
+                    "return self._cookies")
+    return cookies
