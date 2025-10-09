@@ -35,6 +35,8 @@ async def login_user(
         return {"access_token": access_token}
 
 
+
+@router.get("/only_auth")
 async def only_auth(
         request: Request,
 ):
