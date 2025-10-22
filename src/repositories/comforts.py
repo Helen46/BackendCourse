@@ -1,6 +1,7 @@
 from sqlalchemy import select, delete, insert
 
 from src.models.comforts import ComfortsOrm, RoomsComfortsOrm
+from src.models.comforts import ComfortsOrm, RoomsComfortsOrm
 from src.repositories.base import BaseRepository
 from src.schemas.comforts import Comfort, RoomComfort
 
@@ -40,3 +41,8 @@ class RoomsComfortsRepository(BaseRepository):
                 .values([{"room_id": room_id, "comfort_id": c_id} for c_id in ids_to_insert])
             )
             await self.session.execute(insert_m2m_comforts_stmt)
+
+
+class RoomsComfortsRepository(BaseRepository):
+    model = RoomsComfortsOrm
+    schema = RoomComfort

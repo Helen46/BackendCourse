@@ -1,4 +1,5 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+from src.schemas.comforts import Comfort
 
 
 class RoomAddRequest(BaseModel):
@@ -6,7 +7,7 @@ class RoomAddRequest(BaseModel):
     description: str | None = None
     price: int
     quantity: int
-    comforts_ids: list[int] |None = None
+    comforts_ids: list[int] | None = None
 
 
 class RoomAdd(BaseModel):
@@ -36,3 +37,6 @@ class RoomPatch(BaseModel):
     price: int | None = None
     quantity: int | None = None
 
+
+class RoomWithRels(Room):
+    comforts: list[Comfort]
